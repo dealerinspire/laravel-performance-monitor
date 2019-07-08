@@ -1,0 +1,24 @@
+{
+  "name": "dealerinspire/laravel-performance-monitor",
+  "description": "A performance monitor to log an error when a request performs below a specified threshold",
+  "version": "v1.0.0",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1",
+    "laravel/framework": "5.8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "DealerinspireLaravelPerformanceMonitor\\": "./"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "DealerinspireLaravelPerformanceMonitor\\PerformanceMonitorServiceProvider"
+      ]
+    }
+  }
+}
