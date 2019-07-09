@@ -1,5 +1,5 @@
 {
-  "name": "dealerinspire/laravel-performance-monitor",
+  "name": "dealer-inspire/laravel-performance-monitor",
   "description": "A performance monitor to log an error when a request performs below a specified threshold",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -12,14 +12,14 @@
   },
   "autoload": {
     "psr-4": {
-      "DealerinspireLaravelPerformanceMonitor\\": "./",
-      "DealerinspireLaravelPerformanceMonitor\\Tests\\": "./tests"
+      "DealerInspire\\LaravelPerformanceMonitor\\": "./src",
+      "DealerInspire\\LaravelPerformanceMonitor\\Tests\\": "./tests"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "DealerinspireLaravelPerformanceMonitor\\PerformanceMonitorServiceProvider"
+        "DealerInspire\\LaravelPerformanceMonitor\\PerformanceMonitorServiceProvider"
       ]
     }
   },
