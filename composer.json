@@ -6,11 +6,14 @@
   "license": "MIT",
   "require": {
     "php": ">=7.1",
-    "laravel/framework": "5.8.*"
+    "laravel/framework": "5.8.*",
+    "phpunit/phpunit": "^7.5",
+    "mockery/mockery": "^1.2"
   },
   "autoload": {
     "psr-4": {
-      "DealerInspire\\LaravelPerformanceMonitor\\": "./src"
+      "DealerInspire\\LaravelPerformanceMonitor\\": "./src",
+      "DealerInspire\\LaravelPerformanceMonitor\\Tests\\": "./tests"
     }
   },
   "extra": {
@@ -19,5 +22,8 @@
         "DealerInspire\\LaravelPerformanceMonitor\\PerformanceMonitorServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^3.5"
   }
 }

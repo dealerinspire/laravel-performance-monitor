@@ -46,27 +46,35 @@ class PerformanceMonitor
     /**
      * Execute our performance monitoring checks
      *
+     * @param float $startTime
+     * @param float $endTime
+     * @param int $memoryUsage
+     * @param string $memoryLimit
+     *
      * @return void
      */
-    public function execute(): void
+    public function execute(float $startTime, float $endTime, int $memoryUsage, string $memoryLimit)
     {
         if ($this->enableExecutionTimeCheck) {
-            $this->checkApplicationExecutionTime();
+            $this->checkApplicationExecutionTime($startTime, $endTime);
         }
 
         if ($this->enableMemoryLimitCheck) {
-            $this->checkMemoryThreshold();
+            $this->checkMemoryThreshold($memoryUsage, $memoryLimit);
         }
     }
 
     /**
      * Checks if the application execution time is greater than the threshold
      *
+     * @param float $startTime
+     * @param float $endTime
+     *
      * @return void
      */
-    public function checkApplicationExecutionTime(): void
+    public function checkApplicationExecutionTime(float $startTime, float $endTime): void
     {
-        $executionTime = (microtime(true) - LARAVEL_START);
+        $executionTime = ($endTime - $startTime);
         $maxExecutionTime = $this->executionTimeThreshold;
         if ($executionTime > $maxExecutionTime) {
             $this->log->error(sprintf('Long-running process detected. Script run time: %d seconds. Execution Warning Time Limit: %d seconds', $executionTime, $maxExecutionTime));
@@ -76,13 +84,14 @@ class PerformanceMonitor
     /**
      * Checks if the application memory usage is greater than the threshold
      *
+     * @param int $memoryUsage
+     * @param string $memoryLimit
+     *
      * @return void
      */
-    public function checkMemoryThreshold(): void
+    public function checkMemoryThreshold(int $memoryUsage, string $memoryLimit): void
     {
-        $memoryUsage = memory_get_peak_usage(true);
         $maxUsagePercent = $this->memoryLimitThreshold;
-        $memoryLimit = ini_get('memory_limit');
 
         if (empty($memoryLimit)) {
             return;
