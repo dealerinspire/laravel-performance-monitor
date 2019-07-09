@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 return [
     'enable_execution_time_check' => true,
     'enable_memory_limit_check' => true,

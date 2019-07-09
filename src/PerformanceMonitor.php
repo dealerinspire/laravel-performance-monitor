@@ -12,9 +12,35 @@ class PerformanceMonitor
      */
     protected $log;
 
+    /**
+     * @var bool
+     */
+    protected $enableExecutionTimeCheck;
+
+    /**
+     * @var bool
+     */
+    protected $enableMemoryLimitCheck;
+
+    /**
+     * @var int
+     */
+    protected $executionTimeThreshold;
+
+    /**
+     * @var int
+     */
+    protected $memoryLimitThreshold;
+
     public function __construct(LoggerInterface $log)
     {
         $this->log = $log;
+
+        $this->enableExecutionTimeCheck = config('performancemonitor.enable_execution_time_check');
+        $this->enableMemoryLimitCheck = config('performancemonitor.enable_memory_limit_check');
+
+        $this->executionTimeThreshold = config('performancemonitor.execution_time_max_seconds');
+        $this->memoryLimitThreshold = config('performancemonitor.memory_limit_max_memory_percent');
     }
 
     /**
@@ -29,11 +55,11 @@ class PerformanceMonitor
      */
     public function execute(float $startTime, float $endTime, int $memoryUsage, string $memoryLimit)
     {
-        if (config('performancemonitor.enable_execution_time_check')) {
+        if ($this->enableExecutionTimeCheck) {
             $this->checkApplicationExecutionTime($startTime, $endTime);
         }
 
-        if (config('performancemonitor.enable_memory_limit_check')) {
+        if ($this->enableMemoryLimitCheck) {
             $this->checkMemoryThreshold($memoryUsage, $memoryLimit);
         }
     }
@@ -49,7 +75,7 @@ class PerformanceMonitor
     public function checkApplicationExecutionTime(float $startTime, float $endTime): void
     {
         $executionTime = ($endTime - $startTime);
-        $maxExecutionTime = config('performancemonitor.execution_time_max_seconds');
+        $maxExecutionTime = $this->executionTimeThreshold;
         if ($executionTime > $maxExecutionTime) {
             $this->log->error(sprintf('Long-running process detected. Script run time: %d seconds. Execution Warning Time Limit: %d seconds', $executionTime, $maxExecutionTime));
         }
@@ -65,7 +91,7 @@ class PerformanceMonitor
      */
     public function checkMemoryThreshold(int $memoryUsage, string $memoryLimit): void
     {
-        $maxUsagePercent = config('performancemonitor.memory_limit_max_memory_percent');
+        $maxUsagePercent = $this->memoryLimitThreshold;
 
         if (empty($memoryLimit)) {
             return;
