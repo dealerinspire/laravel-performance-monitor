@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DealerinspireLaravelPerformanceMonitor;
+namespace DealerInspire\LaravelPerformanceMonitor;
 
 use Illuminate\Support\ServiceProvider;
 use Psr\Log\LoggerInterface;
