@@ -12,9 +12,35 @@ class PerformanceMonitor
      */
     protected $log;
 
+    /**
+     * @var bool
+     */
+    protected $enableExecutionTimeCheck;
+
+    /**
+     * @var bool
+     */
+    protected $enableMemoryLimitCheck;
+
+    /**
+     * @var int
+     */
+    protected $executionTimeThreshold;
+
+    /**
+     * @var int
+     */
+    protected $memoryLimitThreshold;
+
     public function __construct(LoggerInterface $log)
     {
         $this->log = $log;
+
+        $this->enableExecutionTimeCheck = config('performancemonitor.enable_execution_time_check');
+        $this->enableMemoryLimitCheck = config('performancemonitor.enable_memory_limit_check');
+
+        $this->executionTimeThreshold = config('performancemonitor.execution_time_max_seconds');
+        $this->memoryLimitThreshold = config('performancemonitor.memory_limit_max_memory_percent');
     }
 
     /**
@@ -22,13 +48,13 @@ class PerformanceMonitor
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
-        if (config('performancemonitor.enable_execution_time_check')) {
+        if ($this->enableExecutionTimeCheck) {
             $this->checkApplicationExecutionTime();
         }
 
-        if (config('performancemonitor.enable_memory_limit_check')) {
+        if ($this->enableMemoryLimitCheck) {
             $this->checkMemoryThreshold();
         }
     }
@@ -41,7 +67,7 @@ class PerformanceMonitor
     public function checkApplicationExecutionTime(): void
     {
         $executionTime = (microtime(true) - LARAVEL_START);
-        $maxExecutionTime = config('performancemonitor.execution_time_max_seconds');
+        $maxExecutionTime = $this->executionTimeThreshold;
         if ($executionTime > $maxExecutionTime) {
             $this->log->error(sprintf('Long-running process detected. Script run time: %d seconds. Execution Warning Time Limit: %d seconds', $executionTime, $maxExecutionTime));
         }
@@ -55,7 +81,7 @@ class PerformanceMonitor
     public function checkMemoryThreshold(): void
     {
         $memoryUsage = memory_get_peak_usage(true);
-        $maxUsagePercent = config('performancemonitor.memory_limit_max_memory_percent');
+        $maxUsagePercent = $this->memoryLimitThreshold;
         $memoryLimit = ini_get('memory_limit');
 
         if (empty($memoryLimit)) {
