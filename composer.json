@@ -1,7 +1,6 @@
 {
   "name": "dealerinspire/laravel-performance-monitor",
   "description": "A performance monitor to log an error when a request performs below a specified threshold",
-  "version": "v1.0.0",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "license": "MIT",
