@@ -1,5 +1,5 @@
 {
-  "name": "dealer-inspire/laravel-performance-monitor",
+  "name": "dealerinspire/laravel-performance-monitor",
   "description": "A performance monitor to log an error when a request performs below a specified threshold",
   "minimum-stability": "dev",
   "prefer-stable": true,
