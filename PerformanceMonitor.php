@@ -64,14 +64,13 @@ class PerformanceMonitor
 
         $memoryLimitInBytes = $this->getLimitAsBytes($memoryLimit);
         $actualUsagePercent = ($memoryUsage / $memoryLimitInBytes) * 100;
-
         if ($actualUsagePercent >= $maxUsagePercent) {
             $this->log->error(
                 sprintf(
-                    'Memory usage spike detected. Used memory: %d bytes. Memory Warning Limit: %d bytes (%d%% of available memory)',
-                    $memoryUsage,
-                    $memoryLimitInBytes * $maxUsagePercent / 100,
-                    $actualUsagePercent
+                    'Memory usage spike detected. Used memory: %s bytes. Memory Warning Limit: %s bytes (%d%% of available memory)',
+                    number_format($memoryUsage),
+                    number_format($memoryLimitInBytes * $maxUsagePercent / 100),
+                    $maxUsagePercent
                 )
             );
         }
