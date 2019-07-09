@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace DealerinspireLaravelPerformanceMonitor\Tests\Unit;
 
 use Carbon\Carbon;
-use DealerinspireLaravelPerformanceMonitor\PerformanceMonitor;
-use DealerinspireLaravelPerformanceMonitor\Tests\TestCase;
+use DealerInspire\LaravelPerformanceMonitor\PerformanceMonitor;
+use DealerInspire\LaravelPerformanceMonitor\Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 use Mockery\MockInterface;
 use Psr\Log\LoggerInterface;

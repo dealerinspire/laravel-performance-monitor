@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DealerinspireLaravelPerformanceMonitor\Tests;
+namespace DealerInspire\LaravelPerformanceMonitor\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
