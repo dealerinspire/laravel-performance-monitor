@@ -27,14 +27,13 @@ class PerformanceMonitorTest extends TestCase
     public function testExecuteDoesNotCheckExecutionTimeWhenConfigValueNotSet()
     {
         Carbon::setTestNow('2019-01-01 00:00:00');
+        Config::set('performancemonitor.enable_execution_time_check', false);
+        Config::set('performancemonitor.execution_time_max_seconds', 0);
 
         $now = Carbon::now();
         $end = $now->copy()->addSeconds(901);
 
         $performanceMonitor = new PerformanceMonitor($this->log);
-
-        Config::set('performancemonitor.enable_execution_time_check', false);
-        Config::set('performancemonitor.execution_time_max_seconds', 0);
 
         $this->log->shouldNotReceive('error');
         $performanceMonitor->execute($now->timestamp, $end->timestamp, 0, '0M');
@@ -43,14 +42,13 @@ class PerformanceMonitorTest extends TestCase
     public function testExecuteLogsErrorWhenExecutionTimeThresholdReached()
     {
         Carbon::setTestNow('2019-01-01 00:00:00');
+        Config::set('performancemonitor.enable_execution_time_check', true);
+        Config::set('performancemonitor.execution_time_max_seconds', 900);
 
         $now = Carbon::now();
         $end = $now->copy()->addSeconds(901);
 
         $performanceMonitor = new PerformanceMonitor($this->log);
-
-        Config::set('performancemonitor.enable_execution_time_check', true);
-        Config::set('performancemonitor.execution_time_max_seconds', 900);
 
         $this->log->shouldReceive('error')
             ->once()
