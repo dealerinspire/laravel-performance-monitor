@@ -22,7 +22,12 @@ class PerformanceMonitorServiceProvider extends ServiceProvider
         );
 
         $this->app->terminating(function(){
-            (new PerformanceMonitor($this->app->make(LoggerInterface::class)))->execute();
+            (new PerformanceMonitor($this->app->make(LoggerInterface::class)))->execute(
+                (defined('LARAVEL_START') ? LARAVEL_START : 0.0),
+                microtime(true),
+                memory_get_peak_usage(true),
+                ini_get('memory_limit')
+            );
         });
     }
 }
